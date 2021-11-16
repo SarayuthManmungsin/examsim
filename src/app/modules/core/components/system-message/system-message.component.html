@@ -1,0 +1,15 @@
+<div id="system-message-{i}"
+     class="system-message"
+     *ngFor="let message of messages; let i = index"
+     [style.bottom]="message.position + 'px'">
+        <div class="alert alert-{{message.status}} alert-dismissible fade show" role="alert">
+            <strong>
+                {{message.status == 'danger'? 'Error!' : (message.status == 'warning'? 'Warning!' : 'Success!') }}
+            </strong>
+            {{message.message}}
+            <span class="countdown">This message will close in.. {{message.timing}} seconds</span>
+            <button type="button" class="close" (click)="removeMessage(i)">
+                <span>&times;</span>
+            </button>
+        </div>
+</div>

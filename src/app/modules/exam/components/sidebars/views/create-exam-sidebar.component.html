@@ -1,0 +1,12 @@
+<div class="form-group">
+    <label class="label">Exam Title</label>
+    <input [(ngModel)]="model.title" class="form-control" type="email" placeholder="Exam title: AZ-400, etc." required />
+</div>
+<div class="form-group">
+    <div class="form-check form-check-inline">
+        <label class="form-check-label">
+            <input type="checkbox" [(ngModel)]="model.isActive" class="form-check-input" />
+            Active?
+        </label>
+    </div>    
+</div>

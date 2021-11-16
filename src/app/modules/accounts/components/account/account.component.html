@@ -1,0 +1,85 @@
+<div class="page">
+    <form class="form" novalidate>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>{{strings.ACCOUNT}}</h3>
+                <div class="form-group">
+                    <label>{{strings.EMAIL}}</label>
+                    <input name="Email"
+                           type="email"
+                           class="form-control"
+                           value="{{model.email}}"
+                           placeholder="{{strings.EMAIL}}"
+                           disabled />
+                </div>
+                <div class="form-group {{model.isFirstNameValid?'':'error'}}">
+                    <label>{{strings.FIRST_NAME}}</label>
+                    <input name="FirstName"
+                           type="text"
+                           [(ngModel)]="model.firstName"
+                           class="form-control"
+                           placeholder="{{strings.FIRST_NAME}}"
+                           [disabled]="disabled" />
+                    <div class="alert alert-danger" *ngIf="!model.isFirstNameValid">
+                        {{strings.FIRST_NAME_REQUIRED}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>{{strings.LAST_NAME}}</label>
+                    <input name="LastName"
+                           type="text"
+                           [(ngModel)]="model.lastName"
+                           class="form-control"
+                           placeholder="{{strings.LAST_NAME}}"
+                           [disabled]="disabled" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3>{{strings.CHANGE_PASSWORD}}</h3>
+                <div class="form-group {{model.isCurrentPasswordValid && model.isCurrentPasswordRequiredValid ?'':'error'}}">
+                    <label>{{strings.CURRENT_PASSWORD}}</label>
+                    <input name="CurrentPassword"
+                           type="password"
+                           [(ngModel)]="model.password"
+                           class="form-control"
+                           placeholder="{{strings.CURRENT_PASSWORD}}"
+                           [disabled]="disabled" />
+                    <div class="alert alert-danger" *ngIf="!model.isCurrentPasswordValid">
+                        {{strings.CURRENT_PASSWORD_IS_INVALID}}
+                    </div>
+                    <div class="alert alert-danger" *ngIf="!model.isCurrentPasswordRequiredValid">
+                        {{strings.CURRENT_PASSWORD_IS_REQUIRED}}
+                    </div>
+                </div>
+
+                <div class="form-group {{model.isNewPasswordValid?'':'error'}}">
+                    <label>{{strings.NEW_PASSWORD}}</label>
+                    <input name="NewPassword"
+                           type="password"
+                           [(ngModel)]="model.newPassword"
+                           class="form-control"
+                           placeholder="{{strings.NEW_PASSWORD}}"
+                           [disabled]="disabled" />
+                    <div class="alert alert-danger" *ngIf="!model.isNewPasswordValid">
+                        {{strings.INVALID_PASSWORD}}
+                    </div>
+                </div>
+
+                <div class="form-group {{model.isConfirmPasswordValid?'':'error'}}">
+                    <label>{{strings.CONFIRM_PASSWORD}}</label>
+                    <input name="ConfirmPassword"
+                           type="password"
+                           [(ngModel)]="model.confirmPassword"
+                           class="form-control"
+                           placeholder="{{strings.CONFIRM_PASSWORD}}"
+                           [disabled]="disabled" />
+                    <div class="alert alert-danger" *ngIf="!model.isConfirmPasswordValid">
+                        {{strings.CONFIRM_PASSWORD_NOT_MATCH}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button type="button" class="btn btn-success" (click)="save()" [disabled]="disabled">{{strings.SAVE}}</button>
+    </form>
+</div>

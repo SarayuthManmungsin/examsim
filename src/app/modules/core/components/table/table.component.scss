@@ -1,0 +1,56 @@
+:host {
+    display: inline-block;
+    width: 100%;
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        overflow-x: auto;
+
+        li {
+            display: inline-block;
+            width: 100%;
+            min-height: 38px;
+            padding: 6px 0;
+            border-bottom: 1px dotted #ccc;
+            float: left;
+            min-width: 800px;
+
+            &:hover {
+                background-color: #fbfbfb;
+                transition: all ease-in-out 0.25s
+            }
+
+            &.head {
+                border-bottom: 1px solid #ccc;
+
+                &:hover {
+                    background-color: none;
+                }
+
+                .column {
+                    font-weight: bold;
+                }
+            }
+
+            .column {
+                width: auto;
+                padding-right: 12px;
+                display: inline-block;
+                float: left;
+                min-height: 1px;
+            }
+        }
+    }
+
+    .loading {
+        text-align: center;
+        max-width: 100% !important;
+        margin-top: 10px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    
+}

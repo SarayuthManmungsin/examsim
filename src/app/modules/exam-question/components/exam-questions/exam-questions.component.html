@@ -1,0 +1,169 @@
+<div class="page container-lg">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{strings.EXAM_QUESTIONS}} : {{pagingObject.examTitle}}</h1>
+            <button class="btn btn-danger" (click)="clear()">Restart</button>
+            <button class="btn btn-success mr-1" (click)="create()">Create</button>            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 mb-4" *ngFor="let examQuestion of examQuestions; let i = index">
+            <div class="card"
+                [ngClass]="{ 'border-left-sc': i % 2 === 0, 'border-left-pr': i % 2 !== 0 }">
+                <div class="card-body">
+                    <h5 class="card-title">Exam Question: {{pagingObject.currentPage == 1 ? i + 1 : (pagingObject.currentPage - 1) * pagingObject.pageSize + i + 1 }}</h5>
+                    <h6 class="card-subtitle mb-4 pb-4 text-muted border-bottom">Reference Id: {{examQuestion.id}}:{{examQuestion.questionNumber}}</h6>
+                    <p class="card-text" [innerHTML]="examQuestion.questionText | nl2br"></p>
+
+                    <div *ngIf="examQuestion.questionType == 0 || examQuestion.questionType == 1">
+                        <div class="form-check" *ngFor="let answer of examQuestion.answers; let ii = index">
+
+                            <input *ngIf="examQuestion.questionType == 0" class="form-check-input" name="{{i}}"
+                                id="{{examQuestion.id + '-' + ii}}" type="radio"
+                                [(ngModel)]="examQuestion.selectedAnswers" [value]="answer.id">
+
+                            <input *ngIf="examQuestion.questionType == 1" class="form-check-input" name="{{i}}"
+                                id="{{examQuestion.id + '-' + ii}}" type="checkbox"
+                                (change)="onCheckedAnswer($event, examQuestion, answer.id)" [value]="answer.id" [checked]="hasValue(examQuestion, answer.id)">
+
+                            <label class="form-check-label" for="{{examQuestion.id + '-' + ii}}"
+                                [ngClass]="{ 'border border-success': examQuestion.showCorrectAnswer && answer.isCorrect }">
+                                {{answer.answerText}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div *ngIf="examQuestion.questionType == 4">
+                        <div class="row">
+                            <div class="col-8">
+                                <h6>Statements</h6>
+                            </div>
+                            <div class="col-4">
+                                <h6>Yes / No</h6>
+                            </div>
+                        </div>
+                        <div class="row" *ngFor="let answer of examQuestion.answers; let ii = index">
+
+                            <div class="col-8">
+                                <label>{{answer.answerText}}</label>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check form-check-inline mb-2"
+                                    [ngClass]="{ 'border border-success': examQuestion.showCorrectAnswer && answer.matchedSubAnswer === 'Yes' }">
+                                    <input (ngModelChange)="onCheckedRadioAnswer($event, examQuestion, ii)"
+                                        class="form-check-input mr-3" id="yes{{ii}}" type="radio" value="Yes"
+                                        [(ngModel)]="examQuestion.selectedAnswers[ii]"
+                                        name="{{answer.id}}">
+                                    <label class="form-check-label" for="yes{{ii}}"></label>
+                                </div>
+
+                                <div class="form-check form-check-inline mb-2"
+                                    [ngClass]="{ 'border border-success': examQuestion.showCorrectAnswer && answer.matchedSubAnswer === 'No' }">
+                                    <input (ngModelChange)="onCheckedRadioAnswer($event, examQuestion, ii)"
+                                        class="form-check-input" id="no{{ii}}" type="radio" value="No"
+                                        [(ngModel)]="examQuestion.selectedAnswers[ii]"
+                                        name="{{answer.id}}">
+                                    <label class="form-check-label" for="no{{ii}}"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-6" *ngIf="examQuestion.questionType == 3">
+                            <select class="form-control" [(ngModel)]="examQuestion.selectedAnswers">
+                                <option *ngFor="let answer of examQuestion.answers; let ii = index"
+                                    [ngClass]="{ 'text-success font-weight-bold': examQuestion.showCorrectAnswer && answer.isCorrect }"
+                                    [value]="answer.id">
+                                    {{answer.answerText}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-lg-start" *ngIf="examQuestion.questionType == 2">
+                        <div class="col-md-3">
+                            <h5>Pick Answer</h5>
+                            <div dndDropzone [dndHorizontal]="layout.dndHorizontal" dndEffectAllowed="move"
+                                (dndDrop)="onDrop($event, examQuestion.subAnswers)" class="dndList">
+                                <div dndPlaceholderRef class="dndPlaceholder"></div>
+                                <div *ngFor="let answer of examQuestion.subAnswers" [dndDraggable]="answer"
+                                    [dndEffectAllowed]="'move'"
+                                    (dndMoved)="onDragged(answer, examQuestion.subAnswers, 'move')"
+                                    class="border my-1">
+                                    <span>{{answer.answerText}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Answer Area</h5>
+                            <div class="dndList">
+                                <div *ngFor="let answer of examQuestion.answers; let ii = index">
+                                    <span mat-line>{{(ii + 1) + '. ' + answer.answerText}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Drop Answer Here</h5>
+                            <div dndDropzone [dndHorizontal]="layout.dndHorizontal" dndEffectAllowed="move"
+                                (dndDrop)="onDrop($event, examQuestion.selectedSubAnswers)" class="dndList border">
+                                <div dndPlaceholderRef class="dndPlaceholder"></div>
+
+                                <div *ngFor="let subAnswer of examQuestion.selectedSubAnswers"
+                                    [dndDraggable]="subAnswer" [dndEffectAllowed]="'move'"
+                                    (dndCopied)="onDragged(subAnswer, examQuestion.selectedSubAnswers, 'copy')"
+                                    (dndLinked)="onDragged(subAnswer, examQuestion.selectedSubAnswers, 'link')"
+                                    (dndMoved)="onDragged(subAnswer, examQuestion.selectedSubAnswers, 'move')"
+                                    (dndCanceled)="onDragged(subAnswer, examQuestion.selectedSubAnswers, 'none')"
+                                    class="border my-1">
+                                    <span>{{subAnswer.answerText}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 border border-success" *ngIf="examQuestion.showCorrectAnswer">
+
+                            <h5>Answers</h5>
+
+                            <div class="dndList">
+                                <div *ngFor="let answer of examQuestion.answers; let ii = index">
+                                    <span mat-line>{{(ii + 1) + '. ' + answer.matchedSubAnswer}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2" *ngIf="showAnswerBtn">
+                        <div class="btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-outline-primary active">
+                                <input type="checkbox" checked autocomplete="off"
+                                    [(ngModel)]="examQuestion.showCorrectAnswer">Show Answer
+                            </label>
+                        </div>
+                        <p *ngIf="examQuestion.showCorrectAnswer" class="card-text card-subtitle mt-2 text-muted" [innerHTML]="'Hint: ' + examQuestion.hint | nl2br"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <app-pagging-component *ngIf="true"
+                       [total]="pagingObject.totalItems"
+                       [pageSize]="pagingObject.pageSize"
+                       [currentPage]="pagingObject.currentPage"
+                       (change)="onPageChange($event)">
+            </app-pagging-component>
+        </div>
+        <div class="col-md-6">
+            <h3><span class="badge badge-warning">SCORE: {{totalScore}} / {{pagingObject.totalItems}} (PASS: {{(pagingObject.totalItems * 70) / 100}} (70%))</span></h3>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-success" (click)="submitAnswer()">Check Score</button>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <!--Section for footer rendering-->
+            <br />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="form-group">
+    <label class="label">Question Text</label>
+    <textarea class="form-control" [(ngModel)]='model.questionText' rows="30" cols="120" rows="8"></textarea>
+</div>
+<div class="form-group">
+    <label>Question Type</label>
+    <select class="form-control">
+        <option *ngFor="let questionType of questionTypes" 
+            [value]="questionType.value" 
+            [selected]="model.questionType == questionType.value">
+            {{questionType.type}}
+        </option>
+    </select>
+  </div>
+<div class="form-group">
+    <label class="label">Hint</label>
+    <input [(ngModel)]="model.hint" class="form-control" type="textarea" placeholder="Hint for the question, etc." required />
+</div>
+<div class="form-group pb-4 border-bottom">
+    <button type="button" class="btn btn-outline-success" (click)="addAnswer()">+ Answer</button>        
+</div>
+<div class="form-group pb-4 border-bottom" *ngFor="let answer of model.answers; let i = index">
+    <label class="label">Answers</label>
+    <input [(ngModel)]="answer.answerText" class="form-control" type="text" placeholder="Answers." required />
+    <div class="form-check my-2">
+        <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" [(ngModel)]="answer.isCorrect">
+            Is Correct
+        </label>
+    </div>
+    <button type="button" class="btn btn-outline-danger" (click)="deleteAnswer(i)">- Answer</button>
+</div>

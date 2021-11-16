@@ -1,0 +1,98 @@
+:host {
+    nav {
+        border-bottom: 1px solid #ebebeb;
+        padding: 0 32px;
+
+        li {
+            border-left: 1px solid #ebebeb;
+            min-width: 100px;
+            position: relative;
+
+            &:last-child {
+                border-right: 1px solid #ebebeb;
+            }
+
+            a {
+                padding: 4px 16px;
+                text-align: center;
+                text-overflow: ellipsis;
+                overflow: hidden;
+
+                &.active, &:hover {
+                    background: #ebebeb;
+                }
+
+                i {
+                    display: block;
+                    font-size: 24px;
+                }
+            }
+
+            &:hover {
+                .dropdown-menu {
+                    display: block;
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+        }
+
+        .navbar-brand {
+            margin-right: 36px;
+
+            img {
+                max-width: 200px;
+                position: relative;
+                top: -4px;
+            }
+        }
+    }
+
+    .navbar-nav.right {
+        margin-right: -32px;
+
+        .dropdown-menu {
+            left: auto;
+            right: -2px;
+            top: calc(100% - 1px);
+            border-radius: 0;
+            border-top: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: all ease-in-out 2s;
+            max-width: 250px;
+
+            a {
+                text-align: left;
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 991px) {
+    :host {
+        nav {
+            padding: 12px 32px;
+
+            li {
+                border: none !important;
+
+                i {
+                    display: inline-block;
+                    float: left;
+                    width: 46px;
+                }
+
+                a {
+                    text-align: left;
+
+                }
+            }
+
+            .navbar-nav.right {
+                margin-right: 0;
+            }
+        }
+    }
+}

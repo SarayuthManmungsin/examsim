@@ -1,0 +1,20 @@
+<div class="sidebar-container {{active? 'open':''}}">
+    <div class="sidebar-panel">
+        <h2 *ngIf="model.ready">{{model.title}}</h2>
+
+        <app-create-exam-sidebar-component [hidden]="!model.ready"
+                                           *ngIf="model.view == 'CREATE_EXAM'"
+                                           [sidebar]="model">
+        </app-create-exam-sidebar-component>
+
+        <div class="sidebar-not-ready" *ngIf="!model.ready">
+            <app-spinner-component class="sidebar-spinner"></app-spinner-component>
+            <p>{{strings.LOADING}}</p>
+        </div>
+    </div>
+    <div class="sidebar-action">
+        <button type="button" class="btn btn-default cancel" (click)="onClose()">{{strings.CLOSE}}</button>
+        <button type="button" class="btn btn-success submit" (click)="onSubmit()">{{strings.SAVE}}</button>
+    </div>
+</div>
+<div class="sidebar-black-drop" *ngIf="active"></div>

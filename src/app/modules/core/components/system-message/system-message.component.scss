@@ -1,0 +1,58 @@
+:host {
+    .system-message {
+        position: fixed;
+        bottom: -200px;
+        width: 100%;
+        padding: 0 12px;
+        transition: all ease-in-out 0.5s;
+        line-height: 1.2;
+        z-index:5;
+
+        &.active {
+            bottom: 8px;
+        }
+
+        .alert {
+            padding-right: 350px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .countdown {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 50px;
+            color: #666;
+            margin-top: -1px;
+        }
+
+        .close {
+            height: 44px;
+            padding: 12px;
+
+            span {
+                top: -5px;
+                position: relative;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+    :host {
+        .system-message {
+            .alert {
+                padding-right: 50px;
+            }
+
+            .countdown {
+                position: static;
+                width: 100%;
+                margin-top: 15px;
+                transform: none;
+                display: inline-block;
+            }
+        }
+    }
+}

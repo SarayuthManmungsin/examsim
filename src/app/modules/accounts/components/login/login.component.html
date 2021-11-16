@@ -1,0 +1,29 @@
+<div class="login-form {{disabled?'disabled':''}}">
+    <h1>{{strings.LOGIN}}</h1>
+    <app-spinner-component class="spinner" *ngIf="isLoad"></app-spinner-component>
+    <form class="form" (ngSubmit)="onLogin()" novalidate>
+        <div class="form-group {{model.isUsernameValid?'':'error'}}">
+            <label>{{strings.EMAIL}}</label>
+            <input name="username"
+                   [(ngModel)]="model.username"
+                   type="email"
+                   class="form-control"
+                   placeholder="{{strings.EMAIL}}"
+                   [disabled]="disabled" />
+        </div>
+        <div class="form-group {{model.isPasswordValid?'':'error'}}">
+            <label>{{strings.PASSWORD}}</label>
+            <input name="password"
+                   [(ngModel)]="model.password"
+                   type="password"
+                   class="form-control"
+                   placeholder="{{strings.PASSWORD}}"
+                   [disabled]="disabled" />
+        </div>
+        <div class="alert alert-danger" *ngIf="model.isFail">
+            {{strings.INVALID_LOGIN}}
+        </div>
+        <button type="button" class="btn btn-primary" (click)="onLogin()" [disabled]="disabled">{{strings.LOGIN}}</button>
+        <a class="forget-password-link" routerLink="/account/forget-password">{{strings.FORGET_PASSWORD}}</a>
+    </form>
+</div>

@@ -1,0 +1,45 @@
+<div class="form-check">
+    <input class="form-check-input" type="checkbox" [(ngModel)]="shuffleQuestions" id="shuffleQuestions">
+    <label class="form-check-label" for="shuffleQuestions">
+        Shuffle Questions
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check-input" type="checkbox" [(ngModel)]="shuffleAnswers" id="shuffleAnswers">
+    <label class="form-check-label" for="shuffleAnswers">
+        Shuffle Answers
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check-input" type="checkbox" [(ngModel)]="showAnswerButton" id="showAnswerButton">
+    <label class="form-check-label" for="showAnswerButton">
+        Show Answer Button
+    </label>
+</div>
+<ul class="table">
+    <li class="head">
+        <span class="column" *ngFor="let col of model.columns" [style.width]="col.widthPercent+'%'">{{col.title}}</span>
+    </li>
+    <li *ngFor="let row of model.rows">
+        <span class="column" *ngFor="let col of model.columns" [style.width]="col.widthPercent+'%'">
+            <span *ngIf="col.dataType === 'text'">{{row[col.key]}}</span>
+            <i aria-hidden="true" class="fa fa-times-circle-o" *ngIf="col.dataType === 'boolean'" [ngClass]="{'fas fa-check-circle text-success': row[col.key] === true, 'fas fa-times-circle text-danger': row[col.key] === false}"></i>
+
+            <span *ngIf="col.dataType === 'link'">
+                <input type="button" value="Try!" class="btn btn-primary" [routerLink]="['/examquestions']" [queryParams]="{ examid: row[col.key], shufflea: shuffleAnswers, shuffleq: shuffleQuestions, showAnswer: showAnswerButton }">
+            </span>
+        </span>
+    </li>
+
+</ul>
+
+<div *ngIf="!model.isReady" class="loading">
+    <app-spinner-component></app-spinner-component>
+</div>
+
+<app-pagging-component *ngIf="model.isReady"
+                       [total]="model.totalItems"
+                       [pageSize]="model.pageSize"
+                       [currentPage]="model.page"
+                       (change)="onPageChange($event)">
+</app-pagging-component>

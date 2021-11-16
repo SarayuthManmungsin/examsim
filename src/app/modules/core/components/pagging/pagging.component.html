@@ -1,0 +1,19 @@
+<div class="pagging">
+    <nav>
+        <ul class="pagination">
+            <li class="page-item {{disablePrev&&'disabled'}}" (click)="prev()">
+                <a class="page-link" href="javascript:void(0)">
+                    <span>&lt;</span>
+                </a>
+            </li>
+            <li *ngFor="let page of pages" class="page-item {{page == currentPage? 'active' : ''}}" (click)="toPage(page)">
+                <a class="page-link" href="javascript:void(0)"> {{page == 0 ? '...' : page}}</a>
+            </li>
+            <li class="page-item {{disableNext&&'disabled'}}" (click)="next()">
+                <a class="page-link">
+                    <span aria-hidden="true" href="javascript:void(0)">&gt;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

@@ -1,0 +1,29 @@
+:host {
+   
+    h1 {
+        display: inline-block;
+    }
+
+    .disabled {
+        opacity: 0.6;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .spinner {
+        float: right;
+        position: relative;
+        top: 6px;
+    }
+
+    .forget-password-link {
+        display: inline-block;
+        margin-left: 10px;
+    }
+}
+
+@media screen and (max-width: 1600px) {
+    :host {
+        margin-top: 15%
+    }
+}

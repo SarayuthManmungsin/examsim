@@ -1,0 +1,7 @@
+<div class="form-group {{model.isNameValid && model.isUnique ? '':'error' }}">
+    <label class="label">{{strings.TENANT}}</label>
+    <input [(ngModel)]="model.name" class="form-control" type="text" placeholder="{{strings.TENANT}}" />
+    <div class="alert alert-danger" *ngIf="!model.isUnique">
+        {{strings.INVALID_DUPLICATE_TENANT}}
+    </div>
+</div>

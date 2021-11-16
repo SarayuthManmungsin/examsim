@@ -1,0 +1,3 @@
+<select class="form-control" [id]="id" [(ngModel)]="value" (change)="onChange()">
+    <option *ngFor="let option of options" value="{{option.value}}">{{option.text}}</option>
+</select>

@@ -1,0 +1,32 @@
+<div class="form-group {{model.isUsernameValid && model.isUsernameValidFormat ? '':'error' }}">
+    <label class="label">{{strings.EMAIL}}</label>
+    <input [(ngModel)]="model.email" class="form-control" type="email" placeholder="{{strings.EMAIL}}" />
+    <div class="alert alert-danger" *ngIf="!model.isUsernameValidFormat">
+        {{strings.INVALID_EMAIL}}
+    </div>
+    <div class="alert alert-danger" *ngIf="!model.isUsernameUnique">
+        {{strings.INVALID_DUPLICATE_EMAIL}}
+    </div>
+</div>
+<div class="form-group {{model.isPasswordValid && model.isPasswordValidFormat ? '':'error'}}">
+    <label class="label">{{strings.PASSWORD}}</label>
+    <input [(ngModel)]="model.password" class="form-control" type="password" placeholder="{{strings.PASSWORD}}" />
+    <div class="alert alert-danger" *ngIf="!model.isPasswordValidFormat">
+        {{strings.INVALID_PASSWORD}}
+    </div>
+</div>
+<div class="form-group {{model.isFirstNameValid?'':'error'}}">
+    <label class="label">{{strings.FIRST_NAME}}</label>
+    <input [(ngModel)]="model.firstName" class="form-control" type="text" placeholder="{{strings.FIRST_NAME}}" />
+</div>
+<div class="form-group {{model.isLastNameValid?'':'error'}}">
+    <label class="label">{{strings.LAST_NAME}}</label>
+    <input [(ngModel)]="model.lastName" class="form-control" type="text" placeholder="{{strings.LAST_NAME}}" />
+</div>
+<div class="form-group {{model.isTenantValid?'':'error'}}" *ngIf="tenantPermission.read">
+    <label class="label">{{strings.TENANT}}</label>
+    <app-dropdown-component
+        [(model)]="model.tenantID"
+        [url]="tenantOptionsUrl">
+    </app-dropdown-component>
+</div>

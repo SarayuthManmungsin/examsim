@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">
+        <img src="/assets/img/logo.png" />
+    </a>
+    <button class="navbar-toggler" type="button" (click)="navCollapse.toggle()" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" collapse="true" #navCollapse="bs-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item" *ngFor="let menu of menuItems">
+                <a [routerLinkActiveOptions]="{ exact: true }" class="nav-link" to="/" exact routerLinkActive="active" routerLink="{{menu.url}}" href="{{menu.url}}">
+                    <i class="fas {{menu.icon}}"></i>
+                    <span>{{menu.text}}</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav right">
+            <li class="nav-item" *ngFor="let menu of rightMenuItems">
+                <ng-container *ngIf="!menu.isAccount">
+                    <a [routerLinkActiveOptions]="{ exact: true }" class="nav-link" to="/" exact routerLinkActive="active" routerLink="{{menu.url}}">
+                        <i class="fas {{menu.icon}}"></i>
+                        <span>{{menu.text}}</span>
+                    </a>
+                </ng-container>
+                <ng-container *ngIf="menu.isAccount">
+                    <a [routerLinkActiveOptions]="{ exact: true }" class="nav-link" to="/" exact routerLinkActive="active">
+                        <i class="fas {{menu.icon}}"></i>
+                        <span>{{menu.text}}</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <ng-container *ngIf="user">
+                            <a class="dropdown-item" routerLink="/account" href="/account" title="{{user.name}}">{{strings.LOGIN_AS}}: {{user.name}}</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" (click)="logout()">{{strings.LOGOUT}}</a>
+                        </ng-container>
+                        <ng-container *ngIf="!user">
+                            <a class="dropdown-item" href="/account/login" routerLink="/account/login">{{strings.LOGIN}}</a>
+                        </ng-container>
+                        <span class="dropdown-item-text">Version:{{version}}</span>
+                    </div>
+                </ng-container>
+            </li>
+        </ul>
+    </div>
+</nav>
